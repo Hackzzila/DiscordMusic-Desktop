@@ -6,6 +6,7 @@ import (
 	"fmt"
   "io/ioutil"
 	"time"
+  "os/exec"
 
 	"github.com/bwmarrin/discordgo"
   "github.com/go-ini/ini"
@@ -19,6 +20,12 @@ func main() {
   fmt.Println(" |___/|_/__/\\__\\___/_| \\__,_|_|  |_|\\_,_/__/_\\__|")
   fmt.Println("")
   fmt.Println("___MUSIC___")
+
+  cmd := exec.Command("snip/Snip.exe")
+	err := cmd.Start()
+	if err != nil {
+		panic(err)
+	}
 
   cfg, err := ini.Load("config.ini")
   if err != nil {
