@@ -53,8 +53,13 @@ func main() {
     panic(err)
   }
 
-  dg.UpdateStatus(0, "🎧 " + string(file))
-  fmt.Println("Now Playing: " + string(file))
+	if string(file) != "" {
+		dg.UpdateStatus(0, "🎧 " + string(file))
+		fmt.Println("Now Playing: " + string(file))
+	} else {
+		dg.UpdateStatus(0, "🎧 Nothing")
+		fmt.Println("Now Playing: Nothing")
+	}
 
   for {
     new, err := ioutil.ReadFile("snip/Snip.txt")
@@ -62,8 +67,13 @@ func main() {
       panic(err)
     }
     if string(file) != string(new) {
-      dg.UpdateStatus(0, "🎧 " + string(new))
-      fmt.Println("Now Playing: " + string(new))
+			if string(new) != "" {
+	      dg.UpdateStatus(0, "🎧 " + string(new))
+	      fmt.Println("Now Playing: " + string(new))
+			} else {
+				dg.UpdateStatus(0, "🎧 Nothing")
+	      fmt.Println("Now Playing: Nothing")
+			}
     }
     file = new
     time.Sleep(5000000000)
