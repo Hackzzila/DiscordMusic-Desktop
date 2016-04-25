@@ -13,12 +13,14 @@ import (
 )
 
 func main() {
+	ver := "1"
 
   fmt.Println("  ___  _                   _ __  __         _    ")
   fmt.Println(" |   \\(_)___ __ ___ _ _ __| |  \\/  |_  _ __(_)__ ")
   fmt.Println(" | |) | (_-</ _/ _ \\ '_/ _` | |\\/| | || (_-< / _|")
   fmt.Println(" |___/|_/__/\\__\\___/_| \\__,_|_|  |_|\\_,_/__/_\\__|")
-  fmt.Println("")
+  fmt.Println("Version " + ver)
+	fmt.Println("")
   fmt.Println("___MUSIC___")
 
   cmd := exec.Command("snip/Snip.exe")
