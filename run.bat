@@ -1,4 +1,4 @@
 :start
 start snip/Snip.exe
-main.exe
+DiscordMusic.exe
 goto start
