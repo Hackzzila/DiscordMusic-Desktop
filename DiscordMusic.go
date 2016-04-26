@@ -88,7 +88,7 @@ func statusLoop() {
 			if track == "" {
 				track = "Nothing"
 			}
-			dg.UpdateStatus(0, ":headphones: "+track)
+			dg.UpdateStatus(0, "🎧 "+track)
 			fmt.Println("Now Playing: " + track)
 		}
 		// Update file
