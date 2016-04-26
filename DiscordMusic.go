@@ -92,6 +92,8 @@ func statusLoop() {
 			dg.UpdateStatus(0, ":headphones: "+track)
 			fmt.Println("Now Playing: " + track)
 		}
+		// Update file
+		file = new
 		// Sleep for 5 seconds
 		time.Sleep(5000000000)
 	}
