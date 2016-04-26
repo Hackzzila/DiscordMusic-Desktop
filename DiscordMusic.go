@@ -50,7 +50,6 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, " |___/|_/__/\\__\\___/_| \\__,_|_|  |_|\\_,_/__/_\\__|\n")
 	fmt.Fprintf(w, "    Version: "+ver)
 	fmt.Fprintf(w, "\nNow Playing: "+track)
-	fmt.Println(track)
 }
 
 func newHttp() {
