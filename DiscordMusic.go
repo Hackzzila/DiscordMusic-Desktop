@@ -164,8 +164,7 @@ func main() {
 // message is created on any channel that the autenticated bot has access to.
 func messageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 	tag := "<@" + s.State.User.ID + ">"
-	m.Content = strings.Replace(m.Content, tag+" ", "", -1)
-	if strings.HasPrefix(m.Content, "np") {
+	if strings.HasPrefix(m.Content, tag+" np") {
 		s.ChannelMessageSend(m.ChannelID, "I am listening to **"+track+"**")
 	}
 }
