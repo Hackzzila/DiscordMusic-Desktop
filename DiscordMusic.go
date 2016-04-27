@@ -30,6 +30,7 @@ import (
 	"io/ioutil"
 	"net/http"
 	"os/exec"
+	"strings"
 	"time"
 
 	"github.com/bwmarrin/discordgo"
@@ -41,6 +42,7 @@ var track string = "Nothing"
 var ver string = "2"
 var dg *discordgo.Session
 var err error
+var emoji string
 
 func handler(w http.ResponseWriter, r *http.Request) {
 	// Print to page
@@ -67,11 +69,11 @@ func statusLoop() {
 
 	// Set status
 	if string(file) != "" {
-		dg.UpdateStatus(0, "🎧 "+string(file))
+		dg.UpdateStatus(0, emoji+string(file))
 		fmt.Println("Now Playing: " + string(file))
 		track = string(file)
 	} else {
-		dg.UpdateStatus(0, "🎧 Nothing")
+		dg.UpdateStatus(0, emoji+"Nothing")
 		fmt.Println("Now Playing: Nothing")
 		track = "Nothing"
 	}
@@ -88,7 +90,7 @@ func statusLoop() {
 			if track == "" {
 				track = "Nothing"
 			}
-			dg.UpdateStatus(0, "🎧 "+track)
+			dg.UpdateStatus(0, emoji+track)
 			fmt.Println("Now Playing: " + track)
 		}
 		// Update file
@@ -129,6 +131,12 @@ func main() {
 	// Get the email and password from the config file
 	email := cfg.Section("Credentials").Key("email").String()
 	password := cfg.Section("Credentials").Key("password").String()
+	emoji = cfg.Section("Settings").Key("emoji").String()
+	if emoji == "none" {
+		emoji = ""
+	} else {
+		emoji = emoji + " "
+	}
 
 	// Call the helper function New() passing username and password command
 	// line arguments. This returns a new Discord session, authenticates,
@@ -139,6 +147,9 @@ func main() {
 		return
 	}
 
+	// Register messageCreate as a callback for the messageCreate events.
+	dg.AddHandler(messageCreate)
+
 	// Open the websocket and begin listening.
 	dg.Open()
 
@@ -147,4 +158,14 @@ func main() {
 
 	// Keep script open
 	<-make(chan struct{})
+}
+
+// This function will be called (due to AddHandler above) every time a new
+// message is created on any channel that the autenticated bot has access to.
+func messageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
+	tag := "<@" + s.State.User.ID + ">"
+	m.Content = strings.Replace(m.Content, tag+" ", "", -1)
+	if strings.HasPrefix(m.Content, "np") {
+		s.ChannelMessageSend(m.ChannelID, "I am listening to **"+track+"**")
+	}
 }
